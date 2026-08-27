@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "1.0",
+  "capabilityVersion": "1.0.0",
+  "name": "lookup_savings_balance",
+  "description": "Look up a member and return the current savings balance",
+  "vendorApp": "heritage-core",
+  "baseUrl": "http://127.0.0.1:3100",
+  "approved": true,
+  "inputs": {
+    "memberId": {
+      "type": "string",
+      "required": true,
+      "sensitive": true
+    }
+  },
+  "outputs": {
+    "availableBalance": {
+      "type": "number",
+      "description": "Extracted availableBalance"
+    }
+  },
+  "steps": [
+    {
+      "id": "step-1",
+      "action": "fill",
+      "locator": {
+        "strategy": "label",
+        "value": "Member number",
+        "exact": true,
+        "fallbacks": [
+          {
+            "strategy": "role",
+            "value": "textbox",
+            "name": "Member number"
+          }
+        ]
+      },
+      "value": "{{memberId}}",
+      "timeoutMs": 5000,
+      "risk": "safe"
+    },
+    {
+      "id": "step-2",
+      "action": "click",
+      "locator": {
+        "strategy": "role",
+        "value": "button",
+        "name": "Find Member",
+        "exact": true,
+        "fallbacks": [
+          {
+            "strategy": "text",
+            "value": "Find Member"
+          }
+        ]
+      },
+      "timeoutMs": 5000,
+      "risk": "safe"
+    },
+    {
+      "id": "step-3",
+      "action": "click",
+      "locator": {
+        "strategy": "role",
+        "value": "link",
+        "name": "Open Profile",
+        "exact": true,
+        "fallbacks": [
+          {
+            "strategy": "text",
+            "value": "Open Profile"
+          }
+        ]
+      },
+      "timeoutMs": 5000,
+      "risk": "safe"
+    },
+    {
+      "id": "step-4",
+      "action": "click",
+      "locator": {
+        "strategy": "role",
+        "value": "link",
+        "name": "Savings Account",
+        "exact": true,
+        "fallbacks": [
+          {
+            "strategy": "text",
+            "value": "Savings Account"
+          }
+        ]
+      },
+      "timeoutMs": 5000,
+      "risk": "safe"
+    },
+    {
+      "id": "step-5",
+      "action": "extract",
+      "locator": {
+        "strategy": "role",
+        "value": "cell",
+        "name": "Available balance",
+        "exact": true,
+        "fallbacks": [
+          {
+            "strategy": "text",
+            "value": "Available balance"
+          }
+        ]
+      },
+      "output": "availableBalance",
+      "timeoutMs": 5000,
+      "risk": "safe"
+    }
+  ],
+  "success": {
+    "kind": "visible",
+    "value": "#account-loaded"
+  },
+  "businessOutcomes": [
+    {
+      "code": "MEMBER_NOT_FOUND",
+      "locator": {
+        "strategy": "text",
+        "value": "No member was found",
+        "exact": false,
+        "fallbacks": []
+      },
+      "message": "No member exists for the supplied identifier"
+    }
+  ],
+  "tenantOverrides": {},
+  "metadata": {
+    "createdAt": "2026-08-27T17:30:06.766Z",
+    "discoveredBy": "OpenAIDecisionProvider",
+    "reviewedBy": "Dapinder Bhupal"
+  }
+}

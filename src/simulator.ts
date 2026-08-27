@@ -1,0 +1,12 @@
+import express from "express";
+export function createSimulator() {
+  const app = express(); app.use(express.urlencoded({ extended: false }));
+  const members: Record<string, {name:string; balance:number}> = { "12345": { name:"Jordan Lee", balance:4285.19 }, "54321": {name:"Morgan Chen", balance:912.44} };
+  const shell = (body:string) => `<!doctype html><html><head><title>Heritage Core</title><style>body{font:16px Georgia;margin:30px;background:#eee}.box{background:#fff;border:2px solid #555;padding:22px;max-width:720px}table{border-collapse:collapse}td{border:1px solid #777;padding:10px}.error{color:#a00;font-weight:bold}</style></head><body><div class=box><h1>Heritage Core Banking 7.4</h1>${body}</div></body></html>`;
+  app.get("/", (_q,r) => r.send(shell(`<form action=/search method=get><table><tr><td>Member Number</td><td><input name=memberId aria-label="Member number"></td></tr></table><button type=submit>Find Member</button></form>`)));
+  app.get("/search", async (q,r) => { const id=String(q.query.memberId??""); if(id==="slow") await new Promise(x=>setTimeout(x,6500)); if(id==="timeout") return r.status(401).send(shell(`<p class=error>Session expired. Sign in again.</p>`)); const m=members[id]; if(!m) return r.status(404).send(shell(`<p role=alert class=error>No member was found for number ${id}</p><a href=/ >New search</a>`)); r.send(shell(`<h2>Search Results</h2><table><tr><td>${id}</td><td>${m.name}</td><td><a href="/member/${id}">Open Profile</a></td></tr></table>`)); });
+  app.get("/member/:id", (q,r) => { const m=members[q.params.id]; if(!m) return r.status(404).send(shell(`<p role=alert class=error>Member record unavailable</p>`)); r.send(shell(`<h2>Member Profile</h2><table><tr><td>Name</td><td>${m.name}</td></tr></table><a href="/member/${q.params.id}/savings">Savings Account</a>`)); });
+  app.get("/member/:id/savings", (q,r) => { const m=members[q.params.id]; if(!m) return r.status(404).send(shell(`<p role=alert class=error>Account unavailable</p>`)); r.send(shell(`<h2>Savings Account</h2><table><tr><td>Available Balance</td><td aria-label="Available balance">$${m.balance.toFixed(2)}</td></tr><tr><td>Status</td><td>Open</td></tr></table><p id=account-loaded>Account details loaded</p>`)); });
+  return app;
+}
+export function startSimulator(port=3100) { return new Promise<ReturnType<ReturnType<typeof createSimulator>["listen"]>>(resolve => { const s=createSimulator().listen(port,()=>resolve(s)); }); }

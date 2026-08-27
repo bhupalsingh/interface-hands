@@ -1,0 +1,3 @@
+{"at":"2026-08-27T17:32:10.821Z","runId":"replay-1787851930713","phase":"replay","stepId":"step-1","action":"fill"}
+{"at":"2026-08-27T17:32:11.073Z","runId":"replay-1787851930713","phase":"replay","stepId":"step-2","action":"click"}
+{"at":"2026-08-27T17:32:11.287Z","runId":"replay-1787851930713","result":{"status":"business_outcome","runId":"replay-1787851930713","code":"MEMBER_NOT_FOUND","message":"No member exists for the supplied identifier","stepId":"step-2"}}

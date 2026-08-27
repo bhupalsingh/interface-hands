@@ -1,0 +1,6 @@
+{"at":"2026-08-27T17:31:48.883Z","runId":"replay-1787851908715","phase":"replay","stepId":"step-1","action":"fill"}
+{"at":"2026-08-27T17:31:49.111Z","runId":"replay-1787851908715","phase":"replay","stepId":"step-2","action":"click"}
+{"at":"2026-08-27T17:31:49.264Z","runId":"replay-1787851908715","phase":"replay","stepId":"step-3","action":"click"}
+{"at":"2026-08-27T17:31:49.488Z","runId":"replay-1787851908715","phase":"replay","stepId":"step-4","action":"click"}
+{"at":"2026-08-27T17:31:49.903Z","runId":"replay-1787851908715","phase":"replay","stepId":"step-5","action":"extract"}
+{"at":"2026-08-27T17:31:50.016Z","runId":"replay-1787851908715","result":{"status":"success","runId":"replay-1787851908715","outputs":{"availableBalance":4285.19},"durationMs":1301}}

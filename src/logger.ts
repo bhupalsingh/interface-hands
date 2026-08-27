@@ -1,0 +1,2 @@
+import fs from "node:fs/promises"; import path from "node:path"; import { redact } from "./policy.js";
+export class RunLogger { private lines:unknown[]=[]; constructor(public runId:string, private dir:string){} record(event:unknown){this.lines.push(redact({at:new Date().toISOString(),runId:this.runId,...event as object}));} async save(){await fs.mkdir(this.dir,{recursive:true}); const p=path.join(this.dir,`${this.runId}.jsonl`); await fs.writeFile(p,this.lines.map(x=>JSON.stringify(x)).join("\n")+"\n"); return p;} }
